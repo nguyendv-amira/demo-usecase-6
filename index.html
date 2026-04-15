@@ -588,14 +588,10 @@ function initBotB() {
     d.className = 'row bot';
     d.innerHTML = `${bavHtml()}<div>
       <div class="greet-card">
-        <div class="greet-hi">こんにちは、${KH.name}さん！👋</div>
+        <div class="greet-hi">${KH.name}さん、こんにちは！</div>
         <div class="greet-body">
           PinRich AIアシスタントです。<br>
-          ご利用中の製品の使い方や、業務に関するご質問をお気軽にどうぞ。
-        </div>
-        <div class="greet-tags">
-          ${KH.products.map(p=>`<span class="greet-tag p">📦 ${p}</span>`).join('')}
-          <span class="greet-tag l">🏢 ${KH.stores}店舗 / ${KH.users}名</span>
+          製品の使い方や新しいサービスのご提案など、お気軽にご質問ください。
         </div>
       </div>
       <div class="mt">${now()}</div>
