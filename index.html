@@ -4,882 +4,350 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PinRich Dashboard – Bot B UC-06</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
-:root{
-  --navy:#163264;--navy2:#1a3a6b;--navy3:#0f2548;--navyL:#2a4f8a;
-  --white:#fff;--gray:#f0f2f5;--grayB:#e2e6ed;
-  --text:#1a2233;--muted:#6b7a94;--red:#e8192c;--green:#16a34a;
-  --teal:#0d9488;--amber:#d97706;
+:root {
+  --c-primary:#0A3970;--c-secondary:#00B7C2;
+  --c-darkest:#131313;--c-dark:#3A3A3A;--c-medium:#999999;
+  --c-light:#E3E3E3;--c-lightest:#F4F4F4;--c-white:#FFFFFF;
+  --c-button:#333333;--c-success:#2E7D32;--c-error:#FF4C51;
+  --c-buy:#F3A556;
+  --t-primary:#212121;--t-secondary:#666666;
+  --inp-bg:#F8F8F8;--inp-border-f:#333333;
+  --sh1:0px 0px 40px 0px rgba(33,37,41,0.05);
+  --sh2:0px 2px 2px 0px rgba(33,37,41,0.06),0px 0px 10px 0px rgba(33,37,41,0.08);
+  --r10:10px;--r8:8px;--r4:4px;
   --nav-h:56px;--side-w:220px;
-  --trigger-h:54px;--inp-h:80px;--panel-h:460px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;font-family:'Noto Sans JP',sans-serif;overflow:hidden}
-
-/* ══ DASHBOARD SHELL ══ */
-.shell{display:flex;flex-direction:column;height:100vh;background:#f4f6f9}
-
-/* TOP NAV */
-.topnav{
-  height:var(--nav-h);background:var(--navy);
-  display:flex;align-items:center;padding:0 24px;
-  gap:16px;flex-shrink:0;z-index:100;
-}
-.tn-logo{font-size:18px;font-weight:900;color:#fff;letter-spacing:-.3px;margin-right:8px}
-.tn-product{
-  font-size:12px;font-weight:500;color:rgba(255,255,255,.5);
-  background:rgba(255,255,255,.08);padding:3px 10px;border-radius:20px;
-}
+html,body{height:100%;font-family:'Noto Sans JP',sans-serif;font-size:14px;line-height:20px;color:var(--t-primary);overflow:hidden;background:var(--c-lightest)}
+.shell{display:flex;flex-direction:column;height:100vh}
+/* NAV */
+.topnav{height:var(--nav-h);background:var(--c-primary);display:flex;align-items:center;padding:0 24px;gap:12px;flex-shrink:0;z-index:100}
+.tn-logo{font-size:18px;font-weight:900;color:var(--c-white);letter-spacing:-.3px;margin-right:8px}
+.tn-prod{font-size:12px;font-weight:500;color:rgba(255,255,255,.6);background:rgba(255,255,255,.1);padding:3px 10px;border-radius:20px}
 .tn-right{margin-left:auto;display:flex;align-items:center;gap:12px}
-.tn-notif{
-  width:32px;height:32px;border-radius:50%;
-  background:rgba(255,255,255,.1);
-  display:flex;align-items:center;justify-content:center;cursor:pointer;
-  position:relative;
-}
+.tn-notif{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative}
 .tn-notif svg{width:16px;height:16px;stroke:rgba(255,255,255,.7);fill:none;stroke-width:2}
-.tn-badge{
-  position:absolute;top:2px;right:2px;width:8px;height:8px;
-  border-radius:50%;background:var(--red);border:1.5px solid var(--navy);
-}
-.tn-avatar{
-  width:32px;height:32px;border-radius:50%;
-  background:var(--teal);display:flex;align-items:center;justify-content:center;
-  font-size:12px;font-weight:700;color:#fff;cursor:pointer;
-}
-.tn-name{font-size:13px;color:rgba(255,255,255,.75);font-weight:400}
-
-/* MAIN AREA */
+.tn-badge{position:absolute;top:2px;right:2px;width:8px;height:8px;border-radius:50%;background:var(--c-error);border:2px solid var(--c-primary)}
+.tn-name{font-size:13px;color:rgba(255,255,255,.75)}
+.tn-av{width:32px;height:32px;border-radius:50%;background:var(--c-secondary);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--c-white);cursor:pointer}
+/* MAIN */
 .main{display:flex;flex:1;min-height:0;overflow:hidden}
-
 /* SIDEBAR */
-.sidebar{
-  width:var(--side-w);background:var(--navy2);
-  display:flex;flex-direction:column;flex-shrink:0;
-  padding:16px 0;overflow-y:auto;
-}
-.sb-section{font-size:10px;font-weight:700;color:rgba(255,255,255,.3);
-  letter-spacing:.8px;padding:12px 20px 6px;margin-top:4px}
-.sb-item{
-  display:flex;align-items:center;gap:10px;
-  padding:9px 20px;cursor:pointer;
-  font-size:13px;color:rgba(255,255,255,.55);
-  transition:all .14s;border-left:3px solid transparent;
-}
+.sidebar{width:var(--side-w);background:var(--c-primary);display:flex;flex-direction:column;flex-shrink:0;padding:12px 0;overflow-y:auto}
+.sb-sec{font-size:10px;font-weight:700;color:rgba(255,255,255,.3);letter-spacing:.8px;padding:12px 24px 8px;margin-top:8px}
+.sb-item{display:flex;align-items:center;gap:10px;padding:10px 24px;cursor:pointer;font-size:13px;color:rgba(255,255,255,.55);transition:all .14s;border-left:3px solid transparent;min-height:48px}
 .sb-item:hover{background:rgba(255,255,255,.06);color:rgba(255,255,255,.85)}
-.sb-item.active{
-  background:rgba(255,255,255,.09);color:#fff;
-  border-left-color:var(--teal);font-weight:500;
-}
-.sb-item svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0}
-.sb-badge{
-  margin-left:auto;font-size:10px;font-weight:700;
-  background:var(--red);color:#fff;
-  padding:1px 7px;border-radius:10px;
-}
-
-/* CONTENT AREA */
-.content{flex:1;min-width:0;overflow-y:auto;padding:24px 28px}
-.page-title{font-size:20px;font-weight:700;color:var(--text);margin-bottom:4px}
-.page-sub{font-size:13px;color:var(--muted);margin-bottom:20px}
-
-/* KH INFO CARD */
-.kh-card{
-  background:#fff;border-radius:12px;border:1px solid var(--grayB);
-  padding:16px 20px;margin-bottom:16px;
-  display:flex;gap:20px;align-items:flex-start;
-}
-.kh-avatar{
-  width:48px;height:48px;border-radius:50%;
-  background:var(--teal);display:flex;align-items:center;justify-content:center;
-  font-size:16px;font-weight:700;color:#fff;flex-shrink:0;
-}
+.sb-item.active{background:rgba(255,255,255,.09);color:var(--c-white);border-left-color:var(--c-secondary);font-weight:500}
+.sb-item svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0}
+.sb-badge{margin-left:auto;font-size:10px;font-weight:700;background:var(--c-error);color:var(--c-white);padding:1px 7px;border-radius:var(--r4)}
+/* CONTENT */
+.content{flex:1;min-width:0;overflow-y:auto;padding:24px}
+.page-title{font-size:24px;font-weight:700;color:var(--c-darkest);line-height:36px;margin-bottom:8px}
+.page-sub{font-size:12px;color:var(--c-medium);margin-bottom:24px}
+/* KH CARD */
+.kh-card{background:var(--c-white);border-radius:var(--r10);box-shadow:var(--sh1);padding:24px;margin-bottom:24px;display:flex;gap:24px;align-items:flex-start}
+.kh-av{width:40px;height:40px;border-radius:50%;background:var(--c-secondary);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--c-white);flex-shrink:0}
 .kh-info{flex:1;min-width:0}
-.kh-name{font-size:15px;font-weight:700;color:var(--text)}
-.kh-company{font-size:13px;color:var(--muted);margin-top:2px}
-.kh-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
-.kh-tag{
-  font-size:11px;font-weight:500;padding:2px 9px;border-radius:10px;
-}
-.kh-tag.product{background:#eff6ff;color:#1d4ed8}
-.kh-tag.license{background:#f0fdf4;color:#15803d}
-.kh-tag.stores{background:#faf5ff;color:#7c3aed}
-
-/* STATS ROW */
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
-.stat-card{
-  background:#fff;border-radius:10px;border:1px solid var(--grayB);
-  padding:14px 16px;
-}
-.stat-label{font-size:11px;color:var(--muted);font-weight:500;margin-bottom:6px}
-.stat-val{font-size:22px;font-weight:700;color:var(--text);letter-spacing:-.5px}
-.stat-val span{font-size:13px;font-weight:400;color:var(--muted);margin-left:2px}
-.stat-sub{font-size:11px;color:var(--muted);margin-top:3px}
-.stat-sub.up{color:var(--green)}
-.stat-sub.warn{color:var(--amber)}
-
+.kh-name{font-size:16px;font-weight:700;color:var(--c-darkest);line-height:24px}
+.kh-co{font-size:12px;color:var(--c-medium);margin-top:4px}
+.kh-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.kh-tag{font-size:12px;font-weight:500;padding:3px 10px;border-radius:var(--r4)}
+.kh-tag.p{background:rgba(10,57,112,.08);color:var(--c-primary)}
+.kh-tag.l{background:rgba(46,125,50,.08);color:var(--c-success)}
+.kh-tag.s{background:rgba(0,183,194,.1);color:#00858e}
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.sc{background:var(--c-white);border-radius:var(--r10);box-shadow:var(--sh1);padding:24px 24px 12px}
+.sc-lbl{font-size:12px;font-weight:500;color:var(--c-medium);margin-bottom:8px}
+.sc-val{font-size:24px;font-weight:700;color:var(--c-darkest);line-height:36px;letter-spacing:-.5px}
+.sc-val span{font-size:14px;font-weight:400;color:var(--c-medium);margin-left:2px}
+.sc-sub{font-size:12px;color:var(--c-medium);margin-top:4px}
+.sc-sub.up{color:var(--c-success)}.sc-sub.warn{color:var(--c-buy)}
 /* PRODUCT GRID */
-.section-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;margin-top:4px}
-.product-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
-.product-tile{
-  background:#fff;border-radius:10px;border:1px solid var(--grayB);
-  padding:14px 16px;cursor:pointer;transition:border-color .14s;
-}
-.product-tile:hover{border-color:var(--navyL)}
-.pt-badge{
-  display:inline-flex;align-items:center;gap:5px;
-  font-size:10px;font-weight:700;padding:2px 9px;border-radius:9px;
-  margin-bottom:8px;
-}
-.pt-badge.active{background:#f0fdf4;color:var(--green)}
-.pt-badge.inactive{background:#f9fafb;color:var(--muted);border:1px solid var(--grayB)}
-.pt-badge.upsell{background:#fffbeb;color:var(--amber)}
-.pt-dot{width:6px;height:6px;border-radius:50%;background:currentColor}
-.pt-name{font-size:13px;font-weight:700;color:var(--text)}
-.pt-detail{font-size:11.5px;color:var(--muted);margin-top:3px}
-
-/* ══ CHAT WRAPPER ══ */
-#chat-wrap{
-  position:fixed;bottom:24px;right:28px;z-index:500;
-  display:flex;flex-direction:column;align-items:stretch;gap:0;
-  width:min(460px, calc(100vw - 40px));
-}
-#chat-fab{
-  display:flex;align-items:center;gap:9px;
-  padding:12px 20px;border-radius:30px;
-  background:var(--navy2);border:none;cursor:pointer;
-  box-shadow:0 4px 20px rgba(22,50,100,.45);
-  transition:transform .18s,box-shadow .18s,background .15s,opacity .2s;
-  width:100%;min-width:0;overflow:hidden;
-}
-#chat-fab:hover{transform:translateY(-2px);box-shadow:0 6px 26px rgba(22,50,100,.55);background:var(--navyL)}
+.sec-title{font-size:14px;font-weight:700;color:var(--c-darkest);margin-bottom:12px;line-height:20px}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:48px}
+.ptile{background:var(--c-white);border-radius:var(--r10);box-shadow:var(--sh1);padding:12px 12px 12px 16px;cursor:pointer;transition:box-shadow .14s}
+.ptile:hover{box-shadow:var(--sh2)}
+.pbadge{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:500;padding:2px 8px;border-radius:var(--r4);margin-bottom:8px}
+.pbadge.a{background:rgba(46,125,50,.1);color:var(--c-success)}
+.pbadge.u{background:rgba(243,165,86,.15);color:#b45309}
+.pbadge.i{background:var(--c-lightest);color:var(--c-medium)}
+.pdot{width:6px;height:6px;border-radius:50%;background:currentColor}
+.pname{font-size:14px;font-weight:700;color:var(--c-darkest);line-height:20px}
+.pdet{font-size:12px;color:var(--c-medium);margin-top:4px;line-height:18px}
+/* ════ CHAT ════ */
+#chat-wrap{position:fixed;bottom:24px;right:24px;z-index:500;display:flex;flex-direction:column;align-items:stretch;width:min(400px,calc(100vw - 40px))}
+/* pill */
+#chat-fab{display:flex;align-items:center;gap:8px;padding:14px 24px;border-radius:30px;background:var(--c-primary);border:none;cursor:pointer;box-shadow:var(--sh2);transition:opacity .2s,transform .2s;width:100%;overflow:hidden;min-height:48px}
+#chat-fab:hover{background:#0d4c8f}
 #chat-fab.hidden{opacity:0;pointer-events:none;transform:translateY(8px)}
-.fab-icon{color:#4ecdc4;font-size:17px;line-height:1;flex-shrink:0}
-.fab-text{
-  color:#fff;font-size:13.5px;font-weight:500;line-height:1;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-  min-width:0;flex:1;
-}
-.chat-overlay{
-  width:100%;display:flex;flex-direction:column;
-  border-radius:16px;overflow:hidden;
-  box-shadow:0 8px 40px rgba(0,0,0,.22),0 2px 8px rgba(0,0,0,.1);
-  transform:translateY(12px) scale(0.97);
-  opacity:0;pointer-events:none;max-height:0;
-  transition:transform .3s cubic-bezier(.34,1.4,.64,1),opacity .22s ease,max-height .32s ease;
-}
-.chat-overlay.open{transform:translateY(0) scale(1);opacity:1;pointer-events:all;max-height:620px;}
-@media(max-width:520px){
-  #chat-wrap{right:0;bottom:0;width:100vw;}
-  .chat-overlay{border-radius:0}
-  #chat-fab{border-radius:0;justify-content:center}
-}
-
-/* chat header — click to close */
-.chat-trigger{
-  background:var(--navy2);padding:13px 16px;
-  display:flex;align-items:center;gap:10px;flex-shrink:0;
-  cursor:pointer;border-radius:16px 16px 0 0;
-  transition:background .14s;
-}
-.chat-trigger:hover{background:var(--navyL)}
-.chat-trigger::before{display:none}
-.ct-icon-h{color:#4ecdc4;font-size:17px;flex-shrink:0;line-height:1}
-.ct-info{flex:1;min-width:0}
-.ct-text{color:#fff;font-size:13px;font-weight:500;display:block;line-height:1.45}
-.ct-close{display:none}
-.ct-icon{display:none}
-
-/* chat panel */
-.chat-panel{
-  height:var(--panel-h);background:#e8edf4;
-  display:flex;flex-direction:column;overflow:hidden;
-}
-
+.fab-icon{color:var(--c-secondary);font-size:16px;line-height:1;flex-shrink:0}
+.fab-text{color:var(--c-white);font-size:14px;font-weight:500;line-height:20px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1;text-align:left}
+/* chat window */
+.chat-win{width:100%;display:flex;flex-direction:column;border-radius:var(--r10);overflow:hidden;box-shadow:var(--sh2);transform:translateY(12px) scale(0.97);opacity:0;pointer-events:none;max-height:0;margin-bottom:0;transition:transform .3s cubic-bezier(.34,1.4,.64,1),opacity .22s ease,max-height .32s ease,margin-bottom .3s ease}
+.chat-win.open{transform:translateY(0) scale(1);opacity:1;pointer-events:all;max-height:580px;margin-bottom:8px}
+/* header */
+.ch{background:var(--c-primary);padding:12px 24px;display:flex;align-items:center;gap:8px;flex-shrink:0;cursor:pointer;transition:background .14s}
+.ch:hover{background:#0d4c8f}
+.ch-icon{color:var(--c-secondary);font-size:16px;line-height:1;flex-shrink:0}
+.ch-text{color:var(--c-white);font-size:14px;font-weight:500;line-height:20px;flex:1;min-width:0}
 /* messages */
-.msgs{
-  flex:1;min-height:0;overflow-y:auto;
-  padding:16px 16px 8px;
-  display:flex;flex-direction:column;gap:12px;
-  background:#e8edf4;scroll-behavior:smooth;
-}
-.msgs::-webkit-scrollbar{width:4px}
-.msgs::-webkit-scrollbar-thumb{background:#cdd5e0;border-radius:4px}
+.msgs{flex:1;min-height:0;overflow-y:auto;padding:24px 24px 12px;display:flex;flex-direction:column;gap:12px;background:var(--c-lightest);scroll-behavior:smooth;max-height:320px}
+.msgs::-webkit-scrollbar{width:4px}.msgs::-webkit-scrollbar-thumb{background:var(--c-light);border-radius:var(--r4)}
 .msgs.hidden{display:none}
-
-.ddiv{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--muted);margin-bottom:2px}
-.ddiv::before,.ddiv::after{content:'';flex:1;height:1px;background:var(--grayB)}
-
-/* message rows */
+.ddiv{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--c-medium)}
+.ddiv::before,.ddiv::after{content:'';flex:1;height:1px;background:var(--c-light)}
 .row{display:flex;gap:8px;max-width:100%}
-.row.bot{align-items:flex-end}
-.row.user{flex-direction:row-reverse}
-.bav{width:28px;height:28px;border-radius:50%;background:var(--teal);flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-bottom:2px}
+.row.bot{align-items:flex-end}.row.user{flex-direction:row-reverse}
+.bav{width:32px;height:32px;border-radius:50%;background:var(--c-secondary);flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-bottom:2px}
 .bav svg{width:14px;height:14px;fill:white}
-.bub{max-width:72%;padding:10px 14px;border-radius:16px;font-size:13px;line-height:1.7;word-break:break-word}
-.bot .bub{background:#fff;border:1px solid rgba(0,0,0,.08);border-bottom-left-radius:4px;color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.06)}
-.user .bub{background:#fff;border:1px solid var(--grayB);border-bottom-right-radius:4px;color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.07)}
-.mt{font-size:10px;color:var(--muted);margin-top:3px}
+.bub{max-width:76%;padding:12px;border-radius:var(--r10);font-size:14px;line-height:20px;word-break:break-word}
+.bot .bub{background:var(--c-white);box-shadow:var(--sh1);border-bottom-left-radius:var(--r4);color:var(--t-primary)}
+.user .bub{background:var(--c-white);box-shadow:var(--sh1);border-bottom-right-radius:var(--r4);color:var(--t-primary)}
+.mt{font-size:12px;color:var(--c-medium);margin-top:4px}
 .bot .mt{text-align:left}.user .mt{text-align:right}
-.bub h3{font-size:13px;font-weight:700;color:var(--navy);margin:8px 0 5px;padding-bottom:4px;border-bottom:1px solid var(--grayB)}
-.bub ul{padding-left:15px;margin:5px 0}
-.bub li{margin:3px 0;font-size:13px}
-.bub strong{font-weight:700;color:var(--navy)}
-.bub p{margin:3px 0}
-
-/* greeting card */
-.greet-card{
-  background:#fff;border:1px solid var(--grayB);
-  border-radius:16px;border-bottom-left-radius:4px;
-  padding:14px 16px;max-width:80%;
-  box-shadow:0 1px 4px rgba(0,0,0,.06);
-}
-.greet-hi{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:6px}
-.greet-body{font-size:13px;color:var(--text);line-height:1.7}
-.greet-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
-.greet-tag{
-  font-size:11px;font-weight:500;padding:3px 9px;border-radius:9px;
-  display:flex;align-items:center;gap:4px;
-}
-.greet-tag.p{background:#eff6ff;color:#1d4ed8}
-.greet-tag.l{background:#f0fdf4;color:#15803d}
-
-/* upsell card */
-.upsell-card{
-  background:#fff;border:1.5px solid #fed7aa;border-radius:12px;
-  padding:12px 14px;margin:5px 0;transition:border-color .14s;
-}
-.upsell-card:hover{border-color:var(--amber)}
-.uc-h{display:flex;align-items:center;gap:8px;margin-bottom:5px}
-.uc-badge{font-size:10px;font-weight:700;padding:2px 9px;border-radius:9px;background:#fffbeb;color:var(--amber)}
-.uc-name{font-size:13px;font-weight:700;color:var(--navy)}
-.uc-desc{font-size:12px;color:#4a5568;line-height:1.55}
-.uc-reason{margin-top:6px;padding-top:6px;border-top:1px solid #fed7aa;font-size:11.5px;color:var(--muted)}
-.uc-reason b{color:var(--amber)}
-.upsell-action{
-  margin-top:10px;display:flex;gap:8px;
-}
-.upsell-btn{
-  padding:6px 14px;border-radius:8px;font-size:12px;font-family:inherit;font-weight:500;cursor:pointer;border:1.5px solid;transition:all .13s;
-}
-.upsell-btn.primary{background:var(--amber);color:#fff;border-color:var(--amber)}
-.upsell-btn.primary:hover{background:#b45309}
-.upsell-btn.ghost{background:transparent;color:var(--muted);border-color:var(--grayB)}
-.upsell-btn.ghost:hover{border-color:var(--navy);color:var(--navy)}
-
-/* out of scope card */
-.oos-card{
-  background:#fafafa;border:1px solid var(--grayB);
-  border-radius:12px;padding:11px 14px;
-  font-size:12.5px;color:var(--muted);line-height:1.65;
-}
-.oos-card strong{color:var(--text)}
-
+.bub h3{font-size:14px;font-weight:700;color:var(--c-primary);margin:8px 0;padding-bottom:6px;border-bottom:1px solid var(--c-light)}
+.bub ul{padding-left:16px;margin:8px 0}.bub li{margin:4px 0;font-size:14px;line-height:20px}
+.bub strong{font-weight:700;color:var(--c-primary)}.bub p{margin:4px 0}
+/* greet */
+.gcrd{background:var(--c-white);border-radius:var(--r10);box-shadow:var(--sh1);padding:12px;max-width:80%;border-bottom-left-radius:var(--r4)}
+.g-hi{font-size:14px;font-weight:700;color:var(--c-primary);margin-bottom:8px;line-height:20px}
+.g-body{font-size:14px;color:var(--t-primary);line-height:20px}
+.g-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.g-tag{font-size:12px;font-weight:500;padding:3px 8px;border-radius:var(--r4)}
+.g-tag.p{background:rgba(10,57,112,.08);color:var(--c-primary)}
+.g-tag.l{background:rgba(46,125,50,.08);color:var(--c-success)}
+/* upsell */
+.ucrd{background:var(--c-white);border:1px solid var(--c-light);border-left:3px solid var(--c-buy);border-radius:var(--r10);padding:12px;margin:8px 0;box-shadow:var(--sh1)}
+.uc-h{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.uc-bdg{font-size:12px;font-weight:500;padding:2px 8px;border-radius:var(--r4);background:rgba(243,165,86,.15);color:#b45309}
+.uc-nm{font-size:14px;font-weight:700;color:var(--c-darkest)}
+.uc-desc{font-size:12px;color:var(--t-secondary);line-height:18px}
+.uc-rsn{margin-top:8px;padding-top:8px;border-top:1px solid var(--c-light);font-size:12px;color:var(--c-medium)}
+.uc-rsn b{color:#b45309}
+.uc-acts{margin-top:8px;display:flex;gap:8px}
+.ubtn{height:48px;padding:0 12px;border-radius:var(--r8);font-size:14px;font-family:inherit;font-weight:700;cursor:pointer;border:none;transition:all .13s;display:flex;align-items:center}
+.ubtn.p{background:var(--c-primary);color:var(--c-white);flex:1;justify-content:center}
+.ubtn.p:hover{background:#0d4c8f}
+.ubtn.g{background:transparent;color:var(--c-medium);border:1px solid var(--c-light);flex-shrink:0}
+.ubtn.g:hover{border-color:var(--c-dark);color:var(--c-dark)}
+/* oos */
+.oos{background:var(--c-lightest);border:1px solid var(--c-light);border-radius:var(--r10);padding:12px;font-size:14px;color:var(--c-medium);line-height:20px}
+.oos strong{color:var(--t-primary);font-weight:700}
 /* typing */
 .trow{display:flex;align-items:flex-end;gap:8px}
-.tbub{background:#fff;border:1px solid var(--grayB);border-radius:16px;border-bottom-left-radius:4px;padding:9px 13px;display:flex;gap:4px;align-items:center}
-.tbub span{width:6px;height:6px;border-radius:50%;background:#c8d0de;animation:td 1.2s infinite}
-.tbub span:nth-child(2){animation-delay:.14s}
-.tbub span:nth-child(3){animation-delay:.28s}
-@keyframes td{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px);background:var(--teal)}}
-
-/* error bubble */
-.ebub{background:#fff5f5;border:1px solid #fecaca;border-radius:12px;padding:10px 12px;font-size:12.5px;color:#b91c1c;display:flex;gap:8px;align-items:flex-start}
-.ebub svg{width:14px;height:14px;flex-shrink:0;margin-top:1px;stroke:currentColor;fill:none;stroke-width:2}
-
-/* sys message */
-.sys-msg{display:flex;align-items:center;justify-content:center;gap:8px;padding:6px 0;font-size:11.5px;color:var(--muted)}
-.sys-msg-line{flex:1;height:1px;background:var(--grayB)}
-.sys-pill{padding:4px 12px;border-radius:20px;font-size:11px;font-weight:500;white-space:nowrap}
-.sys-pill.g{background:#f0fdf4;color:var(--green);border:1px solid #bbf7d0}
-.sys-pill.o{background:#fff7ed;color:#ea580c;border:1px solid #fed7aa}
-
-/* action dock */
-.action-dock{flex-shrink:0;display:none;align-items:center;gap:8px;flex-wrap:wrap;padding:9px 16px 10px;background:#e8edf4;border-top:1px solid rgba(0,0,0,.06)}
-.action-dock.visible{display:flex}
-.adlabel{font-size:11.5px;color:var(--muted);margin-right:2px;white-space:nowrap}
-.act{padding:6px 14px;border-radius:18px;font-size:12px;font-family:inherit;font-weight:500;cursor:pointer;border:1.5px solid;transition:all .13s;white-space:nowrap}
-.act.ok{border-color:var(--green);color:var(--green);background:#f0fdf4}
-.act.ok:hover{background:var(--green);color:#fff}
-.act.ng{border-color:var(--red);color:var(--red);background:#fff5f5}
-.act.ng:hover{background:var(--red);color:#fff}
+.tbub{background:var(--c-white);box-shadow:var(--sh1);border-radius:var(--r10);border-bottom-left-radius:var(--r4);padding:12px;display:flex;gap:5px;align-items:center}
+.tbub span{width:6px;height:6px;border-radius:50%;background:var(--c-light);animation:td 1.2s infinite}
+.tbub span:nth-child(2){animation-delay:.14s}.tbub span:nth-child(3){animation-delay:.28s}
+@keyframes td{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px);background:var(--c-secondary)}}
+/* error */
+.ebub{background:rgba(255,76,81,.06);border:1px solid rgba(255,76,81,.3);border-radius:var(--r10);padding:12px;font-size:14px;color:var(--c-error);display:flex;gap:8px}
+.ebub svg{width:16px;height:16px;flex-shrink:0;stroke:currentColor;fill:none;stroke-width:2}
+/* sys */
+.sysmsg{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--c-medium)}
+.sysline{flex:1;height:1px;background:var(--c-light)}
+.syspill{padding:3px 12px;border-radius:20px;font-size:12px;font-weight:500;white-space:nowrap}
+.syspill.g{background:rgba(46,125,50,.1);color:var(--c-success);border:1px solid rgba(46,125,50,.2)}
+.syspill.o{background:rgba(243,165,86,.12);color:#b45309;border:1px solid rgba(243,165,86,.3)}
+/* dock */
+.dock{flex-shrink:0;display:none;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 24px 12px;background:var(--c-lightest);border-top:1px solid var(--c-light)}
+.dock.visible{display:flex}
+.dlbl{font-size:12px;color:var(--c-medium);white-space:nowrap;margin-right:4px}
+.act{height:48px;padding:0 24px;border-radius:var(--r8);font-size:14px;font-family:inherit;font-weight:700;cursor:pointer;border:none;transition:all .13s;display:flex;align-items:center}
+.act.ok{background:rgba(46,125,50,.1);color:var(--c-success);border:1px solid rgba(46,125,50,.25)}
+.act.ok:hover{background:var(--c-success);color:var(--c-white)}
+.act.ng{background:rgba(255,76,81,.08);color:var(--c-error);border:1px solid rgba(255,76,81,.25)}
+.act.ng:hover{background:var(--c-error);color:var(--c-white)}
 .act:disabled{opacity:.4;cursor:not-allowed}
-
-/* processing screen */
-.proc-screen{flex:1;min-height:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:#e8edf4;padding:24px}
-.proc-screen.visible{display:flex}
-.proc-title{font-size:13px;font-weight:700;color:var(--navy)}
-.proc-steps{display:flex;flex-direction:column;gap:8px;width:100%;max-width:340px}
-.ps{display:flex;align-items:center;gap:10px;padding:9px 14px;border-radius:10px;background:#fff;border:1px solid var(--grayB);font-size:12.5px;color:var(--muted);transition:all .3s}
-.ps.active{color:var(--navy);border-color:#bfdbfe;background:#eff6ff}
-.ps.done{color:var(--green);border-color:#bbf7d0;background:#f0fdf4}
+/* proc */
+.proc{flex:1;min-height:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:var(--c-lightest);padding:24px;max-height:320px}
+.proc.visible{display:flex}
+.proc-title{font-size:14px;font-weight:700;color:var(--c-primary)}
+.psteps{display:flex;flex-direction:column;gap:8px;width:100%}
+.ps{display:flex;align-items:center;gap:12px;padding:12px;border-radius:var(--r10);background:var(--c-white);box-shadow:var(--sh1);font-size:14px;color:var(--c-medium);transition:all .3s;min-height:48px}
+.ps.active{color:var(--c-primary);box-shadow:var(--sh2)}
+.ps.done{color:var(--c-success);background:rgba(46,125,50,.06)}
 .ps-icon{font-size:14px;flex-shrink:0;width:18px;text-align:center}
-.ps-spin{width:14px;height:14px;border-radius:50%;border:2px solid #bfdbfe;border-top-color:var(--navy);animation:spin .6s linear infinite;flex-shrink:0}
+.ps-spin{width:14px;height:14px;border-radius:50%;border:2px solid var(--c-light);border-top-color:var(--c-primary);animation:spin .6s linear infinite;flex-shrink:0}
 @keyframes spin{to{transform:rotate(360deg)}}
-
-/* done screen */
-.done-screen{flex:1;min-height:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:#e8edf4;padding:24px;text-align:center}
-.done-screen.visible{display:flex}
-.done-circle{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0}
-.done-circle.g{background:#f0fdf4;border:2px solid #bbf7d0}
-.done-circle.o{background:#fff7ed;border:2px solid #fed7aa}
-.done-title{font-size:15px;font-weight:700;color:var(--navy)}
-.done-body{font-size:13px;color:var(--muted);line-height:1.8;max-width:300px}
-.done-body strong{color:var(--text);font-weight:700}
-.slack-pill{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:20px;font-size:11.5px;font-weight:500}
-.slack-pill.purple{background:#4a154b;color:#fff}
-.slack-pill.orange{background:#ea580c;color:#fff}
+/* done */
+.done{flex:1;min-height:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:var(--c-lightest);padding:24px;text-align:center;max-height:320px}
+.done.visible{display:flex}
+.done-circle{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px}
+.done-circle.g{background:rgba(46,125,50,.1);border:2px solid rgba(46,125,50,.3)}
+.done-circle.o{background:rgba(243,165,86,.12);border:2px solid rgba(243,165,86,.3)}
+.done-title{font-size:16px;font-weight:700;color:var(--c-primary);line-height:24px}
+.done-body{font-size:14px;color:var(--c-medium);line-height:20px;max-width:280px}
+.done-body strong{color:var(--t-primary);font-weight:700}
+.slack-pill{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:var(--r8);font-size:12px;font-weight:500}
+.slack-pill.purple{background:#4a154b;color:var(--c-white)}
+.slack-pill.orange{background:#d9530f;color:var(--c-white)}
 .slack-pill svg{width:13px;height:13px;fill:currentColor}
-.done-note{font-size:11px;color:#b0bac9}
-.back-btn{margin-top:4px;padding:8px 22px;border-radius:8px;background:transparent;border:1.5px solid var(--grayB);color:var(--muted);font-size:12.5px;font-family:inherit;cursor:pointer;transition:all .15s}
-.back-btn:hover{border-color:var(--navy);color:var(--navy)}
-
-/* redirect countdown */
-.cdown-note{font-size:11px;color:#b0bac9}
-
-/* input area */
-.inp-area{flex-shrink:0;padding:10px 14px 12px;background:#e8edf4;border-top:none}
-.inp-area.hidden{display:none}
-.inp-row{display:flex;align-items:flex-end;gap:0;background:#fff;border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,.1);padding:10px 10px 10px 16px;min-height:52px}
-.inp{flex:1;padding:2px 4px;border:none;border-radius:0;resize:none;outline:none;font-family:inherit;font-size:13.5px;line-height:1.55;color:var(--text);background:transparent;max-height:88px;min-height:24px;overflow-y:auto}
-.inp::placeholder{color:#b0bac9}
-.send{width:36px;height:36px;border-radius:50%;background:#1a1a1a;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;align-self:flex-end;transition:transform .13s,background .13s}
-.send:hover{background:#333;transform:scale(1.06)}
+.done-note{font-size:12px;color:var(--c-medium)}
+/* input */
+.inp-area{flex-shrink:0;padding:12px 24px;background:var(--c-lightest);border-top:1px solid var(--c-light)}
+.inp-row{display:flex;align-items:flex-end;gap:8px;background:var(--inp-bg);border-radius:var(--r10);padding:8px 8px 8px 12px;min-height:48px;transition:box-shadow .14s}
+.inp-row:focus-within{box-shadow:inset 0 0 0 1px var(--inp-border-f)}
+.inp{flex:1;padding:2px 4px;border:none;background:transparent;resize:none;outline:none;font-family:'Noto Sans JP',sans-serif;font-size:14px;font-weight:500;line-height:26px;color:var(--t-secondary);max-height:88px;min-height:26px;overflow-y:auto}
+.inp::placeholder{color:var(--c-medium)}
+.send{width:32px;height:32px;border-radius:50%;background:var(--c-button);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;align-self:flex-end;transition:transform .13s,background .13s}
+.send:hover{background:var(--c-darkest);transform:scale(1.06)}
 .send svg{width:16px;height:16px}
-.inp-foot{text-align:center;margin-top:7px;font-size:10px;color:#9aa5b8}
-
-/* KB error btn */
-.kb-err-btn{position:fixed;bottom:20px;right:20px;z-index:9000;padding:6px 13px;border-radius:8px;background:rgba(15,37,72,.8);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.5);font-size:11px;font-family:inherit;cursor:pointer;transition:all .15s}
-.kb-err-btn:hover{background:rgba(180,28,28,.8);color:#fff}
+.inp-foot{text-align:center;margin-top:8px;font-size:12px;color:var(--c-medium)}
+/* KB btn */
+.kberr{position:fixed;bottom:24px;left:24px;z-index:600;padding:8px 12px;border-radius:var(--r8);background:rgba(19,19,19,.8);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.5);font-size:12px;font-family:inherit;cursor:pointer;transition:all .15s}
+.kberr:hover{background:rgba(255,76,81,.8);color:var(--c-white)}
 </style>
 </head>
 <body>
 <div class="shell">
-
-  <!-- TOP NAV -->
   <nav class="topnav">
-    <span class="tn-logo">PinRich</span>
-    <span class="tn-product">不動産仲介</span>
+    <span class="tn-logo">PinRich</span><span class="tn-prod">不動産仲介</span>
     <div class="tn-right">
-      <div class="tn-notif">
-        <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-        <div class="tn-badge"></div>
-      </div>
+      <div class="tn-notif"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"/></svg><div class="tn-badge"></div></div>
       <span class="tn-name">田中 健太</span>
-      <div class="tn-avatar">田</div>
+      <div class="tn-av">田</div>
     </div>
   </nav>
-
   <div class="main">
-    <!-- SIDEBAR -->
     <aside class="sidebar">
-      <div class="sb-section">メインメニュー</div>
-      <div class="sb-item active">
-        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-        ダッシュボード
-      </div>
-      <div class="sb-item">
-        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        顧客管理
-        <span class="sb-badge">3</span>
-      </div>
-      <div class="sb-item">
-        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        物件管理
-      </div>
-      <div class="sb-item">
-        <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-        レポート
-      </div>
-      <div class="sb-section">設定</div>
-      <div class="sb-item">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93l-1.41 1.41M5.34 18.66l-1.41 1.41M20 12h-2M4 12H2M19.07 19.07l-1.41-1.41M5.34 5.34L3.93 3.93M12 20v-2M12 4V2"/></svg>
-        設定
-      </div>
+      <div class="sb-sec">メインメニュー</div>
+      <div class="sb-item active"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>ダッシュボード</div>
+      <div class="sb-item"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>顧客管理<span class="sb-badge">3</span></div>
+      <div class="sb-item"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>物件管理</div>
+      <div class="sb-item"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>レポート</div>
+      <div class="sb-sec">設定</div>
+      <div class="sb-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>設定</div>
     </aside>
-
-    <!-- CONTENT -->
     <div class="content">
       <div class="page-title">ダッシュボード</div>
       <div class="page-sub">株式会社ABC不動産 — 最終更新: 今日 09:32</div>
-
-      <!-- KH info card -->
       <div class="kh-card">
-        <div class="kh-avatar">田</div>
+        <div class="kh-av">田</div>
         <div class="kh-info">
           <div class="kh-name">田中 健太</div>
-          <div class="kh-company">株式会社ABC不動産 · 東京都知事(3)第12345号</div>
+          <div class="kh-co">株式会社ABC不動産 · 東京都知事(3)第12345号</div>
           <div class="kh-tags">
-            <span class="kh-tag product">不動産仲介</span>
-            <span class="kh-tag product">査定書作成</span>
-            <span class="kh-tag license">宅建免許</span>
-            <span class="kh-tag stores">3店舗 / 12ユーザー</span>
+            <span class="kh-tag p">不動産仲介</span><span class="kh-tag p">査定書作成</span>
+            <span class="kh-tag l">宅建免許</span><span class="kh-tag s">3店舗 / 12ユーザー</span>
           </div>
         </div>
       </div>
-
-      <!-- Stats -->
-      <div class="stats-row">
-        <div class="stat-card">
-          <div class="stat-label">今月の追客数</div>
-          <div class="stat-val">142<span>件</span></div>
-          <div class="stat-sub up">↑ 先月比 +12%</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">成約数</div>
-          <div class="stat-val">8<span>件</span></div>
-          <div class="stat-sub up">↑ 先月比 +1件</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">未対応顧客</div>
-          <div class="stat-val">23<span>件</span></div>
-          <div class="stat-sub warn">⚠ 3件が48h超過</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">査定書作成数</div>
-          <div class="stat-val">34<span>件</span></div>
-          <div class="stat-sub">今月</div>
-        </div>
+      <div class="stats">
+        <div class="sc"><div class="sc-lbl">今月の追客数</div><div class="sc-val">142<span>件</span></div><div class="sc-sub up">↑ 先月比 +12%</div></div>
+        <div class="sc"><div class="sc-lbl">成約数</div><div class="sc-val">8<span>件</span></div><div class="sc-sub up">↑ 先月比 +1件</div></div>
+        <div class="sc"><div class="sc-lbl">未対応顧客</div><div class="sc-val">23<span>件</span></div><div class="sc-sub warn">⚠ 3件が48h超過</div></div>
+        <div class="sc"><div class="sc-lbl">査定書作成数</div><div class="sc-val">34<span>件</span></div><div class="sc-sub">今月</div></div>
       </div>
-
-      <!-- Product grid -->
-      <div class="section-title">ご契約中の製品・おすすめ製品</div>
-      <div class="product-grid">
-        <div class="product-tile">
-          <div class="pt-badge active"><span class="pt-dot"></span>利用中</div>
-          <div class="pt-name">PinRich 不動産仲介</div>
-          <div class="pt-detail">追客・顧客管理・メルマガ配信</div>
-        </div>
-        <div class="product-tile">
-          <div class="pt-badge active"><span class="pt-dot"></span>利用中</div>
-          <div class="pt-name">査定書作成</div>
-          <div class="pt-detail">プロ向け査定書アシスト機能</div>
-        </div>
-        <div class="product-tile">
-          <div class="pt-badge upsell"><span class="pt-dot"></span>おすすめ</div>
-          <div class="pt-name">PinRich BB</div>
-          <div class="pt-detail">業者向け物件一括検索DB</div>
-        </div>
-        <div class="product-tile">
-          <div class="pt-badge inactive"><span class="pt-dot"></span>未契約</div>
-          <div class="pt-name">画像／図面DL</div>
-          <div class="pt-detail">物件画像・間取り図の一括DL</div>
-        </div>
-        <div class="product-tile">
-          <div class="pt-badge upsell"><span class="pt-dot"></span>おすすめ</div>
-          <div class="pt-name">不動産取得</div>
-          <div class="pt-detail">投資適格物件の自動収集</div>
-        </div>
-        <div class="product-tile">
-          <div class="pt-badge inactive"><span class="pt-dot"></span>未契約</div>
-          <div class="pt-name">AIエージェント</div>
-          <div class="pt-detail">査定・物件提案の業務自動化</div>
-        </div>
+      <div class="sec-title">ご契約中の製品・おすすめ製品</div>
+      <div class="pgrid">
+        <div class="ptile"><div class="pbadge a"><span class="pdot"></span>利用中</div><div class="pname">PinRich 不動産仲介</div><div class="pdet">追客・顧客管理・メルマガ配信</div></div>
+        <div class="ptile"><div class="pbadge a"><span class="pdot"></span>利用中</div><div class="pname">査定書作成</div><div class="pdet">プロ向け査定書アシスト機能</div></div>
+        <div class="ptile"><div class="pbadge u"><span class="pdot"></span>おすすめ</div><div class="pname">PinRich BB</div><div class="pdet">業者向け物件一括検索DB</div></div>
+        <div class="ptile"><div class="pbadge i"><span class="pdot"></span>未契約</div><div class="pname">画像／図面DL</div><div class="pdet">物件画像・間取り図の一括DL</div></div>
+        <div class="ptile"><div class="pbadge u"><span class="pdot"></span>おすすめ</div><div class="pname">不動産取得</div><div class="pdet">投資適格物件の自動収集</div></div>
+        <div class="ptile"><div class="pbadge i"><span class="pdot"></span>未契約</div><div class="pname">AIエージェント</div><div class="pdet">査定・物件提案の業務自動化</div></div>
       </div>
-    </div><!-- /content -->
-  </div><!-- /main -->
+    </div>
+  </div>
 
-  <!-- ══ CHAT WRAP: pill + popup ══ -->
+  <!-- CHAT -->
   <div id="chat-wrap">
-
-    <!-- popup — above pill -->
-    <div class="chat-overlay" id="chat-overlay">
-
-      <!-- header — click to close -->
-      <div class="chat-trigger" onclick="togglePanel()">
-        <span class="ct-icon-h">✦</span>
-        <div class="ct-info">
-          <span class="ct-text">ピンリッチをもっと使いませんか？何でも聞いてください</span>
-        </div>
+    <div class="chat-win" id="chat-win">
+      <div class="ch" onclick="togglePanel()">
+        <span class="ch-icon">✦</span>
+        <span class="ch-text">ピンリッチをもっと使いませんか？何でも聞いてください</span>
       </div>
-
-    <div class="chat-panel" id="chat-panel">
-
-      <!-- messages -->
-      <div class="msgs" id="msgs">
-        <div class="ddiv">今日</div>
-        <div id="chat-bottom"></div>
-      </div>
-
-      <!-- processing screen -->
-      <div class="proc-screen" id="proc-screen">
-        <div class="proc-title" id="proc-title">処理中...</div>
-        <div class="proc-steps" id="proc-steps"></div>
-      </div>
-
-      <!-- done screen -->
-      <div class="done-screen" id="done-screen"></div>
-
-      <!-- action dock -->
-      <div class="action-dock" id="action-dock">
-        <span class="adlabel">この回答は：</span>
+      <div class="msgs" id="msgs"><div class="ddiv">今日</div><div id="cb"></div></div>
+      <div class="proc" id="proc"><div class="proc-title" id="proc-title">処理中...</div><div class="psteps" id="psteps"></div></div>
+      <div class="done" id="done"></div>
+      <div class="dock" id="dock">
+        <span class="dlbl">この回答は：</span>
         <button class="act ok" id="act-ok" onclick="doAct('ok')">✅ 解決済み</button>
         <button class="act ng" id="act-ng" onclick="doAct('ng')">❌ 未解決</button>
       </div>
-
-    </div><!-- /chat-panel -->
-
-    <!-- input — always visible -->
-    <div class="inp-area" id="inp-area">
-      <div class="inp-row">
-        <textarea class="inp" id="inp" placeholder="製品の使い方・ご質問など…" rows="1"
-          onkeydown="onKey(event)" oninput="rsz(this)"></textarea>
-        <button class="send" onclick="sendUser()">
-          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="6 9 12 15 18 9"/>
-          </svg>
-        </button>
+      <div class="inp-area">
+        <div class="inp-row">
+          <textarea class="inp" id="inp" placeholder="製品の使い方・ご質問など…" rows="1" onkeydown="onKey(event)" oninput="rsz(this)"></textarea>
+          <button class="send" onclick="send()"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        </div>
+        <div class="inp-foot">Bot B · ご利用中の製品データ連携済み</div>
       </div>
-      <div class="inp-foot" id="inp-foot">Bot B · ご利用中の製品データ連携済み · 株式会社ABC不動産</div>
     </div>
-
-  </div><!-- /chat-overlay -->
-
-    <!-- pill trigger — always visible at bottom -->
-    <button id="chat-fab" onclick="togglePanel()" aria-label="チャットを開く">
+    <button id="chat-fab" onclick="togglePanel()">
       <span class="fab-icon">✦</span>
       <span class="fab-text">ピンリッチをもっと使いませんか？何でも聞いてください</span>
     </button>
-
-  </div><!-- /chat-wrap -->
-
-</div><!-- /shell -->
-
-<button class="kb-err-btn" onclick="simulateKBError()">⚠ KB障害</button>
+  </div>
+</div>
+<button class="kberr" onclick="kbErr()">⚠ KB障害</button>
 
 <script>
-/* ══ mock customer data (from DB on login) ══ */
-const KH = {
-  name: '田中 健太',
-  company: '株式会社ABC不動産',
-  email: 'kenta@abc-re.co.jp',
-  tel: '03-1234-5678',
-  license: '東京都知事(3)第12345号',
-  products: ['PinRich 不動産仲介', '査定書作成'],
-  upsell: ['PinRich BB', '不動産取得'],
-  stores: 3, users: 12
-};
-
-/* ══ state ══ */
-let isOpen = false, hasGreeted = false, userHasSent = false;
-let dbLoaded = false; // simulates DB fetch on open
-
-/* ══ panel toggle ══ */
-function togglePanel() {
-  isOpen = !isOpen;
-  document.getElementById('chat-overlay').classList.toggle('open', isOpen);
-  document.getElementById('chat-fab').classList.toggle('hidden', isOpen);
-  if (isOpen) {
-    setTimeout(() => document.getElementById('inp').focus(), 300);
-    if (!hasGreeted) { hasGreeted = true; initBotB(); }
-  }
+const KH={name:'田中 健太',company:'株式会社ABC不動産',products:['PinRich 不動産仲介','査定書作成'],stores:3,users:12};
+let open=false,greeted=false,sent=false;
+function togglePanel(){
+  open=!open;
+  document.getElementById('chat-win').classList.toggle('open',open);
+  document.getElementById('chat-fab').classList.toggle('hidden',open);
+  if(open){setTimeout(()=>document.getElementById('inp').focus(),300);if(!greeted){greeted=true;init();}}
 }
-
-/* ══ Phase 1: init Bot B — load KB + fetch DB ══ */
-function initBotB() {
-  // Step 1: show KB loading
-  addTyping();
-  setTimeout(() => {
-    rmTyping();
-    // simulate DB fetch success → personalized greeting
-    dbLoaded = true;
-    const d = document.createElement('div');
-    d.className = 'row bot';
-    d.innerHTML = `${bavHtml()}<div>
-      <div class="greet-card">
-        <div class="greet-hi">${KH.name}さん、こんにちは！</div>
-        <div class="greet-body">
-          PinRich AIアシスタントです。<br>
-          製品の使い方や新しいサービスのご提案など、お気軽にご質問ください。
-        </div>
-      </div>
-      <div class="mt">${now()}</div>
-    </div>`;
-    ins(d); scrollB();
-  }, 1200);
+function init(){
+  typ();setTimeout(()=>{
+    rmtyp();
+    const d=document.createElement('div');d.className='row bot';
+    d.innerHTML=`${bav()}<div><div class="gcrd"><div class="g-hi">こんにちは、${KH.name}さん！👋</div><div class="g-body">PinRich AIアシスタントです。<br>ご利用中の製品の使い方や業務に関するご質問をお気軽にどうぞ。</div><div class="g-tags">${KH.products.map(p=>`<span class="g-tag p">📦 ${p}</span>`).join('')}<span class="g-tag l">🏢 ${KH.stores}店舗 / ${KH.users}名</span></div></div><div class="mt">${now()}</div></div>`;
+    ins(d);scr();
+  },1200);
 }
-
-/* ══ message helpers ══ */
-function ins(el) {
-  const m = document.getElementById('msgs'), b = document.getElementById('chat-bottom');
-  if (m && b) m.insertBefore(el, b);
+function ins(el){const m=document.getElementById('msgs'),b=document.getElementById('cb');if(m&&b)m.insertBefore(el,b)}
+function bav(){return`<div class="bav"><svg width="14" height="14" fill="white" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg></div>`}
+function botRaw(h){const d=document.createElement('div');d.className='row bot';d.innerHTML=`${bav()}<div><div class="bub">${h}</div><div class="mt">${now()}</div></div>`;ins(d);scr()}
+function bot(h){botRaw(h);if(sent)showDock()}
+function addUser(h){sent=true;const d=document.createElement('div');d.className='row user';d.innerHTML=`<div><div class="bub">${h}</div><div class="mt">${now()}</div></div>`;ins(d);scr();hideDock()}
+function typ(){const d=document.createElement('div');d.id='typr';d.className='trow';d.innerHTML=`<div style="width:32px;height:32px;border-radius:50%;background:var(--c-secondary);flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-bottom:2px"><svg width="14" height="14" fill="white" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg></div><div class="tbub"><span></span><span></span><span></span></div>`;ins(d);scr()}
+function rmtyp(){const t=document.getElementById('typr');if(t)t.remove()}
+function sysmsg(txt,cls){const d=document.createElement('div');d.className='sysmsg';d.innerHTML=`<div class="sysline"></div><span class="syspill ${cls}">${txt}</span><div class="sysline"></div>`;ins(d);scr()}
+function showDock(){const dk=document.getElementById('dock');if(!dk)return;dk.classList.add('visible');['ok','ng'].forEach(t=>{const b=document.getElementById('act-'+t);if(b){b.disabled=false;b.className='act '+t}})}
+function hideDock(){const dk=document.getElementById('dock');if(dk)dk.classList.remove('visible')}
+const QA=[
+  {kw:['使い方','方法','できる','機能','設定','操作','手順','どうやって'],fn:()=>`<h3>📖 ご利用ガイド</h3><p>ご質問の機能についての手順：</p><ul><li>上部メニュー「顧客管理」から対象顧客を選択</li><li>「追客設定」タブで配信スケジュールを設定</li><li>「保存」で確定 → 自動的に有効化されます</li></ul><p style="margin-top:8px">詳細はヘルプページもご参照ください。</p>`},
+  {kw:['物件','業者','仕入れ','投資','収益','買取','BB','検索','一括'],fn:()=>upsellHtml()},
+  {kw:['料金','価格','費用','いくら','コスト','見積','プラン','月額'],fn:()=>`<h3>💰 料金・プラン</h3><p>現在のご契約プランの詳細：</p><ul><li><strong>不動産仲介</strong>：スタンダード ¥50,000/月</li><li><strong>査定書作成</strong>：プロ ¥20,000/月</li></ul><p style="margin-top:8px">プラン変更は担当営業にご相談ください。</p>`},
+  {kw:['税金','登記','法律','弁護士','融資','銀行','ローン'],fn:()=>`<div class="oos"><strong>⚠ PinRich対応範囲外です</strong><br>税務・法律・融資に関するご質問はサポート範囲外となります。専門家へのご相談をお勧めします。</div>`}
+];
+function upsellHtml(){
+  return`<p><strong>業務効率化</strong>にご活用いただける未契約製品をご提案します：</p>`+
+  [{n:'PinRich BB',d:'主要ポータル掲載の最新物件を一括検索。図面DLもスムーズ。',r:'仲介業務との親和性が高く、物件提案スピードが向上します。'},
+   {n:'不動産取得',d:'投資適格物件を自動収集。セミカスタマイズ型プラットフォーム。',r:'買取・投資案件の拡大をお考えであれば導入効果が大きいです。'}]
+  .map(c=>`<div class="ucrd"><div class="uc-h"><span class="uc-bdg">おすすめ</span><span class="uc-nm">${c.n}</span></div><div class="uc-desc">${c.d}</div><div class="uc-rsn"><b>✓ おすすめ理由：</b>${c.r}</div><div class="uc-acts"><button class="ubtn p" onclick="upsellClick('${c.n}')">詳細・見積を確認</button><button class="ubtn g" onclick="this.closest('.ucrd').style.opacity='.4';this.closest('.ucrd').style.pointerEvents='none'">今は不要</button></div></div>`).join('');
 }
-function bavHtml() {
-  return `<div class="bav"><svg width="14" height="14" fill="white" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg></div>`;
+function classify(t){const l=t.toLowerCase();for(const q of QA)if(q.kw.some(k=>l.includes(k)))return q.fn();return`<p>ご質問ありがとうございます。</p><p style="margin-top:8px">ナレッジベースを確認しましたが、該当情報が見つかりませんでした。より具体的なキーワードでお試しいただくか、担当営業にご連絡ください。</p>`}
+function send(){const i=document.getElementById('inp'),v=i.value.trim();if(!v)return;if(!open)togglePanel();addUser(v);i.value='';rsz(i);setTimeout(()=>{typ();setTimeout(()=>{rmtyp();bot(classify(v));},900+Math.random()*400);},300)}
+function upsellClick(n){hideDock();sysmsg(`📦 ${n} の詳細確認へ（UC-07 Upsell）`,'o');botRaw(`<p>ご興味いただきありがとうございます。<strong>${n}</strong>の詳細資料と概算見積もりを担当営業より送付いたします。</p><p style="margin-top:8px;font-size:12px;color:var(--c-medium)">→ Slack #dashboard-bot（Trigger #5）に通知します</p>`)}
+function doAct(type){hideDock();type==='ok'?uc02ok():uc02ng()}
+function uc02ok(){
+  so('proc');document.getElementById('proc-title').textContent='チャット完了処理中...';
+  const st=[{id:'p0',icon:'🤖',label:'AIがチャット履歴を要約中...',done:'要約完了（〜200文字）',ms:1100},{id:'p1',icon:'🗄️',label:'DBからお客様情報を取得中...',done:`顧客情報取得（${KH.company}）`,ms:900},{id:'p2',icon:'📨',label:'Slack #dashboard-bot へ通知中...',done:'Trigger #8 送信完了 ✓',ms:800},{id:'p3',icon:'💾',label:'セッション記録中...',done:'完了 · 1日後自動削除',ms:600}];
+  bldst(st);runst(st,()=>cdown('done',2,()=>back('✅ Slack #dashboard-bot に通知済み（Trigger #8）','g','<p>ご解決いただけてよかったです！引き続きご不明点があればお気軽にどうぞ。</p>'),`<div class="done-circle g">✅</div><div class="done-title">ありがとうございました！</div><div class="done-body">ご質問が解決されてよかったです。</div><div class="slack-pill purple">${slksvg()} Slack #dashboard-bot（Trigger #8）に通知済み</div><div class="done-note">履歴は1日後に自動削除されます</div>`));
 }
-function addBotRaw(html) {
-  const d = document.createElement('div'); d.className = 'row bot';
-  d.innerHTML = `${bavHtml()}<div><div class="bub">${html}</div><div class="mt">${now()}</div></div>`;
-  ins(d); scrollB();
+function uc02ng(){
+  so('proc');document.getElementById('proc-title').textContent='担当営業への通知処理中...';
+  const st=[{id:'p0',icon:'🤖',label:'AIがチャット履歴を要約中...',done:'要約完了（〜200文字）',ms:1100},{id:'p1',icon:'🗄️',label:'DBからお客様情報を取得中...',done:`顧客情報取得（${KH.company}）`,ms:900},{id:'p2',icon:'📨',label:'Slack #dashboard-bot へ通知中...',done:'Trigger #6 送信完了 ✓',ms:800},{id:'p3',icon:'💾',label:'セッション記録中...',done:'完了 · 解決まで保持',ms:600}];
+  bldst(st);runst(st,()=>cdown('done',2,()=>back('❌ 担当営業へ通知済み（Slack #dashboard-bot · Trigger #6）','o','<p>担当営業より<strong>2営業日以内</strong>にご連絡いたします。他にご質問があればお気軽にどうぞ。</p>'),`<div class="done-circle o">📋</div><div class="done-title">担当者に通知しました</div><div class="done-body">担当営業より<strong>2営業日以内</strong>にご連絡いたします。</div><div class="slack-pill orange">${slksvg()} Slack #dashboard-bot（Trigger #6）に通知済み</div><div class="done-note">履歴は解決済みになるまで保持されます</div>`));
 }
-function addBot(html) {
-  addBotRaw(html);
-  if (userHasSent) showDock();
-}
-function addUser(html) {
-  userHasSent = true;
-  const d = document.createElement('div'); d.className = 'row user';
-  d.innerHTML = `<div><div class="bub">${html}</div><div class="mt">${now()}</div></div>`;
-  ins(d); scrollB();
-  hideDock();
-}
-function addTyping() {
-  const d = document.createElement('div'); d.id = 'typr'; d.className = 'trow';
-  d.innerHTML = `<div style="width:28px;height:28px;border-radius:50%;background:var(--teal);flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-bottom:2px"><svg width="14" height="14" fill="white" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg></div><div class="tbub"><span></span><span></span><span></span></div>`;
-  ins(d); scrollB();
-}
-function rmTyping() { const t = document.getElementById('typr'); if (t) t.remove(); }
-function addSysMsg(text, cls) {
-  const d = document.createElement('div'); d.className = 'sys-msg';
-  d.innerHTML = `<div class="sys-msg-line"></div><span class="sys-pill ${cls}">${text}</span><div class="sys-msg-line"></div>`;
-  ins(d); scrollB();
-}
-
-/* ══ dock ══ */
-function showDock() {
-  const dock = document.getElementById('action-dock');
-  if (!dock) return;
-  dock.classList.add('visible');
-  ['ok','ng'].forEach(t => {
-    const b = document.getElementById('act-' + t);
-    if (b) { b.disabled = false; b.className = 'act ' + t; }
-  });
-}
-function hideDock() {
-  const dock = document.getElementById('action-dock');
-  if (dock) dock.classList.remove('visible');
-}
-
-/* ══ Q&A response router ══ */
-const QA_RESPONSES = {
-  usage: {
-    match: ['使い方','方法','できる','機能','設定','操作','手順','どうやって','インポート','エクスポート'],
-    reply: () => `<h3>📖 ご利用ガイド</h3>
-<p>ご質問の機能について、以下の手順でご利用いただけます：</p>
-<ul>
-  <li>メニュー上部の<strong>「顧客管理」</strong>から対象顧客を選択</li>
-  <li><strong>「追客設定」</strong>タブで配信スケジュールを設定</li>
-  <li><strong>「保存」</strong>ボタンで確定 → 自動的に有効化されます</li>
-</ul>
-<p style="margin-top:7px">詳細はヘルプページもご参照ください。</p>`
-  },
-  upsell: {
-    match: ['物件','業者','仕入れ','投資','収益','買取','DB','検索','一括'],
-    reply: () => buildUpsellReply()
-  },
-  price: {
-    match: ['料金','価格','費用','いくら','コスト','見積','プラン','月額'],
-    reply: () => `<h3>💰 料金・プランについて</h3>
-<p>現在のご契約プランの詳細：</p>
-<ul>
-  <li><strong>不動産仲介</strong>：スタンダードプラン ¥50,000/月</li>
-  <li><strong>査定書作成</strong>：プロプラン ¥20,000/月</li>
-</ul>
-<p style="margin-top:7px">プラン変更・追加オプションについては担当営業にご相談ください。</p>`
-  },
-  oos: {
-    match: ['税金','登記','法律','弁護士','融資','銀行','ローン'],
-    reply: () => `<div class="oos-card">
-<strong>⚠ この質問はPinRichの対応範囲外です</strong><br>
-申し訳ございませんが、税務・法律・融資に関するご質問はPinRich製品のサポート範囲外となります。<br>
-専門家（税理士・弁護士・金融機関）へのご相談をお勧めします。
-</div>`
-  }
-};
-
-function buildUpsellReply() {
-  const cards = [
-    { name: 'PinRich BB', badge: 'おすすめ', desc: '主要ポータル掲載の最新物件を一括検索。図面DLもスムーズ。', reason: '現在のご業務（仲介）との親和性が高く、物件提案スピードが向上します。' },
-    { name: '不動産取得', badge: '参考', desc: '投資適格物件を自動収集。各社の事業モデルに合わせたセミカスタマイズ型。', reason: '買取・投資案件の拡大をお考えであれば導入効果が大きいです。' }
-  ];
-  return `<p>現在のご業務内容から、以下の製品が<strong>業務効率化</strong>に貢献できます：</p>` +
-    cards.map(c => `<div class="upsell-card">
-      <div class="uc-h"><span class="uc-badge">${c.badge}</span><span class="uc-name">${c.name}</span></div>
-      <div class="uc-desc">${c.desc}</div>
-      <div class="uc-reason"><b>✓ おすすめ理由：</b>${c.reason}</div>
-      <div class="upsell-action">
-        <button class="upsell-btn primary" onclick="startUpsell('${c.name}')">詳細・見積を確認</button>
-        <button class="upsell-btn ghost" onclick="dismissUpsell(this)">今は不要</button>
-      </div>
-    </div>`).join('');
-}
-
-function classifyAndRespond(text) {
-  const lower = text.toLowerCase();
-  for (const [, def] of Object.entries(QA_RESPONSES)) {
-    if (def.match.some(kw => lower.includes(kw))) return def.reply();
-  }
-  // default: general Q&A
-  return `<p>ご質問ありがとうございます。</p>
-<p style="margin-top:6px">ナレッジベースを確認しましたが、<strong>${KH.company}</strong>のご契約製品に関する情報では明確な回答が見つかりませんでした。</p>
-<p style="margin-top:6px;font-size:12.5px;color:var(--muted)">「情報が見つかりません」と表示された場合は、より具体的なキーワードでご質問いただくか、担当営業にご連絡ください。</p>`;
-}
-
-/* ══ send message ══ */
-function sendUser() {
-  const inp = document.getElementById('inp'), v = inp.value.trim();
-  if (!v) return;
-  if (!isOpen) togglePanel();
-  addUser(v); inp.value = ''; rsz(inp);
-  setTimeout(() => {
-    addTyping();
-    const delay = 900 + Math.random() * 600;
-    setTimeout(() => {
-      rmTyping();
-      addBot(classifyAndRespond(v));
-    }, delay);
-  }, 300);
-}
-
-/* ══ upsell actions ══ */
-function startUpsell(productName) {
-  hideDock();
-  addSysMsg(`📦 ${productName} の詳細確認へ（UC-07 Upsell）`, 'o');
-  addBotRaw(`<p>ご興味いただきありがとうございます。<strong>${productName}</strong>の詳細資料と概算見積もりを作成します。担当営業よりご連絡いたします。</p>
-<p style="margin-top:6px;font-size:12px;color:var(--muted)">→ Slack #dashboard-bot（Trigger #5）に通知します</p>`);
-}
-function dismissUpsell(btn) {
-  const card = btn.closest('.upsell-card');
-  if (card) { card.style.opacity = '.4'; card.style.pointerEvents = 'none'; }
-}
-
-/* ══ UC-02 routing ══ */
-function doAct(type) {
-  hideDock();
-  if (type === 'ok') startUC02Resolved();
-  else startUC02Unresolved();
-}
-
-function startUC02Resolved() {
-  showOnly('proc-screen');
-  document.getElementById('proc-title').textContent = 'チャット完了処理中...';
-  const steps = [
-    { id:'ps0', icon:'🤖', label:'AIがチャット履歴を要約中...', done:'要約完了（〜200文字）', ms:1100 },
-    { id:'ps1', icon:'🗄️', label:'DBからお客様情報を取得中...', done:`顧客情報取得（${KH.company}）`, ms:900 },
-    { id:'ps2', icon:'📨', label:'Slack #dashboard-bot へ通知中...', done:'Trigger #8 送信完了 ✓', ms:800 },
-    { id:'ps3', icon:'💾', label:'セッション記録中...', done:'完了 · 1日後自動削除', ms:600 }
-  ];
-  buildProcSteps(steps);
-  runSteps(steps, () => {
-    showRedirectCountdown('done-screen', 2, () => {
-      backToChat('✅ Slack #dashboard-bot に通知済み（Trigger #8）', 'g',
-        '<p>ご解決いただけてよかったです！引き続きご不明点があればお気軽にどうぞ。</p>');
-    }, `<div class="done-circle g">✅</div>
-      <div class="done-title">ありがとうございました！</div>
-      <div class="done-body">ご質問が解決されてよかったです。</div>
-      <div class="slack-pill purple">${slackSvg()} Slack #dashboard-bot（Trigger #8）に通知済み</div>
-      <div class="done-note">履歴は1日後に自動削除されます</div>`);
-  });
-}
-
-function startUC02Unresolved() {
-  showOnly('proc-screen');
-  document.getElementById('proc-title').textContent = '担当営業への通知処理中...';
-  const steps = [
-    { id:'ps0', icon:'🤖', label:'AIがチャット履歴を要約中...', done:'要約完了（〜200文字）', ms:1100 },
-    { id:'ps1', icon:'🗄️', label:'DBからお客様情報を取得中...', done:`顧客情報取得（${KH.company}）`, ms:900 },
-    { id:'ps2', icon:'📨', label:'Slack #dashboard-bot へ通知中...', done:'Trigger #6 送信完了 ✓', ms:800 },
-    { id:'ps3', icon:'💾', label:'セッション記録中...', done:'完了 · 解決まで保持', ms:600 }
-  ];
-  buildProcSteps(steps);
-  runSteps(steps, () => {
-    showRedirectCountdown('done-screen', 2, () => {
-      backToChat('❌ 担当営業へ通知済み（Slack #dashboard-bot · Trigger #6）', 'o',
-        '<p>担当営業より<strong>2営業日以内</strong>にご連絡いたします。他にご質問があればお気軽にどうぞ。</p>');
-    }, `<div class="done-circle o">📋</div>
-      <div class="done-title">担当者に通知しました</div>
-      <div class="done-body">担当営業より<strong>2営業日以内</strong>にご連絡いたします。</div>
-      <div class="slack-pill orange">${slackSvg()} Slack #dashboard-bot（Trigger #6）に通知済み</div>
-      <div class="done-note">履歴は解決済みになるまで保持されます</div>`);
-  });
-}
-
-/* ══ back to chat ══ */
-function backToChat(sysText, sysCls, botMsg) {
-  showOnly('msgs');
-  userHasSent = false;
-  if (sysText) addSysMsg(sysText, sysCls || 'g');
-  addBotRaw(botMsg || '<p>他にご質問があればお気軽にどうぞ。</p>');
-}
-
-/* ══ screen manager ══ */
-function showOnly(id) {
-  const screens = ['msgs', 'proc-screen', 'done-screen'];
-  screens.forEach(s => {
-    const el = document.getElementById(s);
-    if (!el) return;
-    if (s === id) {
-      el.classList.remove('hidden');
-      if (s !== 'msgs') el.classList.add('visible');
-    } else {
-      if (s === 'msgs') el.classList.add('hidden');
-      else el.classList.remove('visible');
-    }
-  });
-  const sb = document.getElementById('submit-bar');
-  if (sb) sb.classList.remove('visible');
-}
-
-/* ══ proc step helpers ══ */
-function buildProcSteps(steps) {
-  const c = document.getElementById('proc-steps'); if (!c) return;
-  c.innerHTML = '';
-  steps.forEach(s => {
-    const d = document.createElement('div'); d.className = 'ps'; d.id = s.id;
-    d.innerHTML = `<span class="ps-icon">${s.icon}</span><span>${s.label}</span>`;
-    c.appendChild(d);
-  });
-}
-function runSteps(steps, onDone, i = 0) {
-  if (i >= steps.length) { setTimeout(onDone, 200); return; }
-  const el = document.getElementById(steps[i].id);
-  if (!el) { runSteps(steps, onDone, i + 1); return; }
-  el.classList.add('active');
-  el.querySelector('.ps-icon').outerHTML = '<div class="ps-spin"></div>';
-  setTimeout(() => {
-    el.classList.remove('active'); el.classList.add('done');
-    el.querySelector('.ps-spin').outerHTML = `<span class="ps-icon">✓</span>`;
-    el.querySelector('span:last-child').textContent = steps[i].done;
-    runSteps(steps, onDone, i + 1);
-  }, steps[i].ms);
-}
-
-/* ══ redirect countdown ══ */
-function showRedirectCountdown(screenId, secs, onDone, innerHtml) {
-  showOnly(screenId);
-  const el = document.getElementById(screenId);
-  const cid = 'cdown-' + Date.now();
-  el.innerHTML = innerHtml + `<div class="cdown-note" id="${cid}">${secs}秒後にチャットへ戻ります...</div>`;
-  let t = secs;
-  const iv = setInterval(() => {
-    t--;
-    const cd = document.getElementById(cid);
-    if (cd) cd.textContent = t > 0 ? `${t}秒後にチャットへ戻ります...` : 'チャットへ戻ります...';
-    if (t <= 0) { clearInterval(iv); onDone(); }
-  }, 1000);
-}
-
-/* ══ KB error sim ══ */
-function simulateKBError() {
-  if (!isOpen) togglePanel();
-  setTimeout(() => {
-    addTyping();
-    setTimeout(() => {
-      rmTyping();
-      const d = document.createElement('div'); d.className = 'row bot';
-      d.innerHTML = `${bavHtml()}<div><div class="ebub"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span>ナレッジベースへの接続に問題が発生しています（再試行3回）。担当営業までお問い合わせください。</span></div><div class="mt">${now()}</div></div>`;
-      ins(d); scrollB();
-    }, 700);
-  }, isOpen ? 0 : 500);
-}
-
-/* ══ utils ══ */
-function slackSvg() { return `<svg viewBox="0 0 24 24"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>`; }
-function onKey(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendUser(); } }
-function rsz(el) { el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 88) + 'px'; }
-function scrollB() { const m = document.getElementById('msgs'); if (m) setTimeout(() => m.scrollTop = m.scrollHeight, 60); }
-function now() { return new Date().toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' }); }
+function back(st,sc,bm){so('msgs');sent=false;if(st)sysmsg(st,sc||'g');botRaw(bm||'<p>他にご質問があればお気軽にどうぞ。</p>')}
+function so(id){['msgs','proc','done'].forEach(s=>{const el=document.getElementById(s);if(!el)return;if(s===id){el.classList.remove('hidden');if(s!=='msgs')el.classList.add('visible');}else{if(s==='msgs')el.classList.add('hidden');else el.classList.remove('visible');}});const sb=document.getElementById('submit-bar');if(sb)sb.classList.remove('visible')}
+function bldst(steps){const c=document.getElementById('psteps');if(!c)return;c.innerHTML='';steps.forEach(s=>{const d=document.createElement('div');d.className='ps';d.id=s.id;d.innerHTML=`<span class="ps-icon">${s.icon}</span><span>${s.label}</span>`;c.appendChild(d)})}
+function runst(steps,onDone,i=0){if(i>=steps.length){setTimeout(onDone,200);return}const el=document.getElementById(steps[i].id);if(!el){runst(steps,onDone,i+1);return}el.classList.add('active');el.querySelector('.ps-icon').outerHTML='<div class="ps-spin"></div>';setTimeout(()=>{el.classList.remove('active');el.classList.add('done');el.querySelector('.ps-spin').outerHTML=`<span class="ps-icon">✓</span>`;el.querySelector('span:last-child').textContent=steps[i].done;runst(steps,onDone,i+1);},steps[i].ms)}
+function cdown(sid,secs,onDone,html){so(sid);const el=document.getElementById(sid);const cid='cd'+Date.now();el.innerHTML=html+`<div class="done-note" id="${cid}">${secs}秒後にチャットへ戻ります...</div>`;let t=secs;const iv=setInterval(()=>{t--;const cd=document.getElementById(cid);if(cd)cd.textContent=t>0?`${t}秒後にチャットへ戻ります...`:'チャットへ戻ります...';if(t<=0){clearInterval(iv);onDone();}},1000)}
+function kbErr(){if(!open)togglePanel();setTimeout(()=>{typ();setTimeout(()=>{rmtyp();const d=document.createElement('div');d.className='row bot';d.innerHTML=`${bav()}<div><div class="ebub"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span>ナレッジベースへの接続に問題が発生しています（再試行3回）。担当営業までお問い合わせください。</span></div><div class="mt">${now()}</div></div>`;ins(d);scr();},700);},open?0:500)}
+function slksvg(){return`<svg viewBox="0 0 24 24"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>`}
+function onKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send()}}
+function rsz(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,88)+'px'}
+function scr(){const m=document.getElementById('msgs');if(m)setTimeout(()=>m.scrollTop=m.scrollHeight,60)}
+function now(){return new Date().toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit'})}
 </script>
 </body>
 </html>
